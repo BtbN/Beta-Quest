@@ -1,10 +1,10 @@
-#include "dungeon_info.h"
-
 #include "gfx.h"
 #include "text.h"
 #include "util.h"
 #include "world_map_info.h"
 #include "z64.h"
+
+#include "dungeon_info.h"
 
 #define PAUSE_ITEM 0
 

@@ -1,5 +1,3 @@
-#include "dungeon_info.h"
-#include "entrance_info.h"
 #include "gfx.h"
 #include "text.h"
 #include "util.h"
@@ -7,6 +5,8 @@
 #include "z64.h"
 #include "weather.h"
 #include "world_map_info.h"
+#include "dungeon_info.h"
+#include "entrance_info.h"
 
 void Gameplay_InitSkybox(z64_game_t* globalCtx, int16_t skyboxId);
 

@@ -1,9 +1,9 @@
-#include "entrance_info.h"
-
 #include "gfx.h"
 #include "text.h"
 #include "util.h"
 #include "z64.h"
+
+#include "entrance_info.h"
 
 typedef enum display_mode_t {
     DISPLAYMODE_NONE = 0,
