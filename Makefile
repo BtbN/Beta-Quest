@@ -2,7 +2,7 @@ CC = mips64-gcc
 LD = mips64-ld
 OBJDUMP = mips64-objdump
 
-CFLAGS = -O1 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mabi=32 -mno-gpopt -mdivide-breaks \
+CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mabi=32 -mno-gpopt -mdivide-breaks \
 	-mexplicit-relocs
 CPPFLAGS = -DF3DEX_GBI_2
 
@@ -18,20 +18,20 @@ OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(sort $(wildcard $(SRCDIR)/*.c
 
 all: clean bundle symbols makesrc
 
-$(OBJDIR)/%.o: %.c 
+$(OBJDIR)/%.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS)
 ifdef RUN_OBJDUMP
 		$(OBJDUMP) -d $@ | tr -d '\015' > $@_d.txt
 		$(OBJDUMP) -r $@ | tr -d '\015' > $@_r.txt
 endif
 
-$(OBJDIR): 
+$(OBJDIR):
 	mkdir -p $@
 
 $(OBJECTS): | $(OBJDIR)
 
 bundle: $(OBJECTS)
-	$(LD) -o $(OUTDIR)/bundle.o -i -L. $(patsubst %.o,-l:%.o,$(OBJECTS))
+	$(LD) -o $(OUTDIR)/bundle.o -i -T linker_script.ld -L. $(patsubst %.o,-l:%.o,$(OBJECTS))
 
 symbols: bundle
 	$(OBJDUMP) -t $(OUTDIR)/bundle.o | tr -d '\015' > $(OUTDIR)/c_symbols.txt
