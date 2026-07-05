@@ -1,5 +1,5 @@
 .org 0x8004C020
-save_game: 
+save_game:
 addiu	sp, sp, 0xFFE0
 sw		s1, 0x0018(sp)
 sw		s0, 0x0014(sp)
@@ -13,11 +13,30 @@ addiu	at, r0, 0x0034
 sh		at, 0x0066(s0)
 
 @l_8004C050:
+jal     shared_save_prepare
+sw		a0, 0x0010(sp)
+lw		a0, 0x0010(sp)
 jal		0x800905D4
 addiu	a0, a0, 0x1F74
+jal     shared_save_restore
+nop
 lw		ra, 0x001C(sp)
 sh		s1, 0x0066(s0)
 lw		s1, 0x0018(sp)
 lw		s0, 0x0014(sp)
 jr		ra
 addiu	sp,sp,0x0020
+
+sram_open_save_wrapper:
+addiu	sp, sp, 0xFFE0
+sw		ra, 0x001C(sp)
+jal		shared_load_prepare
+sw		a0, 0x0020(sp)
+lw		a0, 0x0020(sp)
+jal		0x800902AC
+nop
+jal		shared_load_restore
+nop
+lw		ra, 0x001C(sp)
+jr		ra
+addiu	sp, sp, 0x0020

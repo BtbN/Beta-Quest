@@ -8,6 +8,9 @@ jal     save_game
 addiu	a0, s1, 0x0000
 jal     save_game
 
+//FileSelect_LoadGame intercept Sram_OpenSave
+.orga 0xBAEC0C
+    jal     sram_open_save_wrapper
 
 //enable mirror shield for child link
 .orga 0xBC77B3
