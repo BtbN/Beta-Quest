@@ -808,13 +808,6 @@ void draw_entrance_info(z64_disp_buf_t *db)
         s_display_mode = DISPLAYMODE_NONE;
     }
 
-    // Only show the spoiler log if the filename starts with SL
-    char *filename = z64_file.file_name;
-    if (((unsigned char)filename[0]) != 0xbd ||
-        ((unsigned char)filename[1]) != 0xb6) {
-        return;
-    }
-
     if (!s_entrance_info_initialized) {
         if (z64_file.game_mode == GAMEMODE_NORMAL) {
             s_entrance_info_initialized = 1;
@@ -1008,5 +1001,3 @@ void draw_entrance_info(z64_disp_buf_t *db)
     gDPFullSync(db->p++);
     gSPEndDisplayList(db->p++);
 }
-
-
