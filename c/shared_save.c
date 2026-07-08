@@ -11,6 +11,10 @@
 static int32_t restore_active = 0;
 static int32_t restore_file_index = 0;
 
+typedef struct SramContext {
+    uint8_t* readBuff;
+} SramContext;
+
 static uint8_t sram_buffer[FILE_NAME_BYTES + DMA_ALIGN] __attribute__((aligned(DMA_ALIGN)));
 
 static void read_slot_name(uint8_t* dst, int32_t file_index) {
@@ -24,7 +28,7 @@ static void read_slot_name(uint8_t* dst, int32_t file_index) {
         dst[i] = sram_buffer[buf_offset + i];
 }
 
-void shared_save_prepare(void) {
+void shared_save_prepare(SramContext* sramCtx) {
     restore_active = 0;
     if (z64_file.file_index == 0)
         return;
@@ -37,7 +41,7 @@ void shared_save_prepare(void) {
     restore_active = 1;
 }
 
-void shared_save_restore(void) {
+void shared_save_restore(SramContext* sramCtx) {
     if (!restore_active)
         return;
 
@@ -47,7 +51,7 @@ void shared_save_restore(void) {
     restore_active = 0;
 }
 
-void shared_load_prepare(void) {
+void shared_load_prepare(SramContext* sramCtx) {
     restore_active = 0;
     if (z64_file.file_index == 0)
         return;
@@ -59,7 +63,7 @@ void shared_load_prepare(void) {
     restore_active = 1;
 }
 
-void shared_load_restore(void) {
+void shared_load_restore(SramContext* sramCtx) {
     if (!restore_active)
         return;
 

@@ -13,13 +13,13 @@ addiu	at, r0, 0x0034
 sh		at, 0x0066(s0)
 
 @l_8004C050:
-jal     shared_save_prepare
-sw		a0, 0x0010(sp)
-lw		a0, 0x0010(sp)
-jal		0x800905D4
 addiu	a0, a0, 0x1F74
-jal     shared_save_restore
-nop
+jal		shared_save_prepare
+sw		a0, 0x0010(sp)
+jal		0x800905D4
+lw		a0, 0x0010(sp)
+jal		shared_save_restore
+lw		a0, 0x0010(sp)
 lw		ra, 0x001C(sp)
 sh		s1, 0x0066(s0)
 lw		s1, 0x0018(sp)
@@ -32,11 +32,10 @@ addiu	sp, sp, 0xFFE0
 sw		ra, 0x001C(sp)
 jal		shared_load_prepare
 sw		a0, 0x0020(sp)
-lw		a0, 0x0020(sp)
 jal		0x800902AC
-nop
+lw		a0, 0x0020(sp)
 jal		shared_load_restore
-nop
+lw		a0, 0x0020(sp)
 lw		ra, 0x001C(sp)
 jr		ra
 addiu	sp, sp, 0x0020
