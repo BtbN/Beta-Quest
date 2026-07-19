@@ -53,6 +53,10 @@ b	@light_arrow_thing
 .org 0x80090C58
 ori		t9, r0, 0
 
+// pause/subscreen delay fix
+//.org 0x8009C588
+//addiu	a2, r0, 0x0000
+
 //Set Nabooru fight cs to trigger regardless of age
 .org 0x800EFDF6
 .byte 2
